@@ -83,6 +83,16 @@ function diffChars(official, scanned) {
 const RAW_API_BASE = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
 const API_BASE = RAW_API_BASE.replace(/\/$/, "");
 
+function getDeviceId() {
+  if (typeof window === "undefined") return "unknown";
+  let id = localStorage.getItem("trustlink_device_id");
+  if (!id) {
+    id = "dev_" + Math.random().toString(36).substring(2, 10) + Date.now();
+    localStorage.setItem("trustlink_device_id", id);
+  }
+  return id;
+}
+
 async function loadJSON(key, isShared, defaultValue) {
   try {
     if (key === "community-reports") {
@@ -101,7 +111,7 @@ async function loadJSON(key, isShared, defaultValue) {
 
     if (key === "scan-history") {
       try {
-        const res = await fetch(`${API_BASE}/history`);
+        const res = await fetch(`${API_BASE}/history?device_id=${getDeviceId()}`);
         if (res.ok) {
           const data = await res.json();
           return data.map(h => ({
@@ -270,7 +280,7 @@ function ScanTab({ history, setHistory, reports, setReports }) {
       const res = await fetch(`${API_BASE}/scan`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input: val, input_type: looksLikeUrl ? "url" : "message" }),
+        body: JSON.stringify({ input: val, input_type: looksLikeUrl ? "url" : "message", device_id: getDeviceId() }),
       });
       const data = await res.json();
 
