@@ -80,7 +80,8 @@ function diffChars(official, scanned) {
   return scanned.split("").map((ch, i) => ({ ch, bad: official[i] !== ch }));
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+const RAW_API_BASE = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+const API_BASE = RAW_API_BASE.replace(/\/$/, "");
 
 async function loadJSON(key, isShared, defaultValue) {
   try {
@@ -490,7 +491,7 @@ function ScanTab({ history, setHistory, reports, setReports }) {
                 <div className="text-sm font-semibold" style={{ color: C.text }}>Pratinjau Sandbox</div>
                 <Pill color={C.safe}>Aman — kamu tidak mengunjungi situs asli</Pill>
               </div>
-              
+
               <div className="rounded-md overflow-hidden" style={{ background: C.panelRaised, border: `1px solid ${C.line}` }}>
                 {/* Browser Header Bar */}
                 <div className="flex items-center gap-2 px-3.5 py-2.5" style={{ background: "#10151C", borderBottom: `1px solid ${C.line}` }}>
@@ -503,7 +504,7 @@ function ScanTab({ history, setHistory, reports, setReports }) {
                 </div>
 
                 {/* Clickable Sandbox Image Area */}
-                <div 
+                <div
                   className={`relative flex items-center justify-center group ${result.screenshotUrl ? 'cursor-pointer' : ''} overflow-hidden`}
                   style={{ height: 320, background: "repeating-linear-gradient(135deg, #1D242E 0px, #1D242E 2px, #171D25 2px, #171D25 30px)" }}
                   onClick={() => result.screenshotUrl && window.open(result.screenshotUrl, "_blank")}
@@ -517,9 +518,9 @@ function ScanTab({ history, setHistory, reports, setReports }) {
                       />
                       {/* Hover Overlay */}
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
-                         <div className="flex items-center gap-2 px-4 py-2 rounded-full text-xs md:text-sm font-semibold shadow-lg text-white" style={{ background: C.trust, fontFamily: FONT_MONO }}>
-                           <ExternalLink size={15} /> Lihat Ukuran Penuh
-                         </div>
+                        <div className="flex items-center gap-2 px-4 py-2 rounded-full text-xs md:text-sm font-semibold shadow-lg text-white" style={{ background: C.trust, fontFamily: FONT_MONO }}>
+                          <ExternalLink size={15} /> Lihat Ukuran Penuh
+                        </div>
                       </div>
                     </>
                   ) : (
@@ -564,7 +565,7 @@ function ScanTab({ history, setHistory, reports, setReports }) {
               {/* ACTION BUTTONS WITH TOAST */}
               <div className="flex gap-2.5 mt-5 flex-col sm:flex-row relative">
                 {copied && (
-                  <div 
+                  <div
                     className="absolute -top-12 left-0 right-0 sm:right-auto px-4 py-2 rounded-md text-xs flex items-center justify-center sm:justify-start gap-2 shadow-lg animate-bounce z-50"
                     style={{ background: C.safe, color: "#fff", fontFamily: FONT_MONO }}
                   >
@@ -572,14 +573,14 @@ function ScanTab({ history, setHistory, reports, setReports }) {
                   </div>
                 )}
 
-                <button 
+                <button
                   onClick={() => {
                     const textToShare = `🚨 [TrustLink Warning]\nAtas Pengecekan Target: ${result.input}\nSkor Risiko: ${result.score}% (${result.verdict})\n\nPenjelasan: ${result.explanation}\n\nPeriksa tautan Anda di TrustLink!`;
                     navigator.clipboard.writeText(textToShare);
                     setCopied(true);
                     setTimeout(() => setCopied(false), 3000);
                   }}
-                  className="w-full sm:flex-1 py-3.5 sm:py-3 rounded text-sm font-semibold transition-all hover:brightness-125" 
+                  className="w-full sm:flex-1 py-3.5 sm:py-3 rounded text-sm font-semibold transition-all hover:brightness-125"
                   style={{ background: C.panelRaised, border: `1px solid ${C.line}`, color: C.text }}
                 >
                   Bagikan Hasil
@@ -665,8 +666,8 @@ function CommunityTab({ reports }) {
               <Flag size={16} color={r.status === "terverifikasi" ? C.danger : C.warn} className="shrink-0 hidden sm:block" />
               <div className="flex-1 min-w-0">
                 <div className="text-[13px] md:text-sm truncate flex items-center gap-2" style={{ fontFamily: FONT_MONO, color: C.text }}>
-                   <Flag size={12} color={r.status === "terverifikasi" ? C.danger : C.warn} className="shrink-0 sm:hidden" />
-                   <span className="truncate">{r.input}</span>
+                  <Flag size={12} color={r.status === "terverifikasi" ? C.danger : C.warn} className="shrink-0 sm:hidden" />
+                  <span className="truncate">{r.input}</span>
                 </div>
                 <div className="text-[11px] md:text-xs" style={{ color: C.muted }}>{r.timestamp}</div>
               </div>
