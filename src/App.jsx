@@ -80,7 +80,7 @@ function diffChars(official, scanned) {
   return scanned.split("").map((ch, i) => ({ ch, bad: official[i] !== ch }));
 }
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
 
 async function loadJSON(key, isShared, defaultValue) {
   try {
