@@ -284,6 +284,12 @@ function ScanTab({ history, setHistory, reports, setReports }) {
       });
       const data = await res.json();
 
+      if (!res.ok) {
+        alert(data.error || data.detail || "Gagal memproses pemindaian.");
+        setScanning(false);
+        return;
+      }
+
       const isTrusted = data.layers.domain_url.score === 0;
       const brand = detectBrand(val.toLowerCase());
       let typo = null;
