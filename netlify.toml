@@ -3,4 +3,4 @@
   publish = "dist"
 
 [build.environment]
-  VITE_API_BASE_URL = " https://penguin-comparisons-naturals-suddenly.trycloudflare.com"
+  VITE_API_BASE_URL = "https://calculate-begun-alter-islamic.trycloudflare.com "
