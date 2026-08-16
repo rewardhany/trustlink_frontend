@@ -445,7 +445,7 @@ function ScanTab({ history, setHistory, reports, setReports }) {
                   <div className="text-xs mt-3 leading-relaxed" style={{ color: C.muted }}>
                     {result.verdict === "BAHAYA" && "Indikasi kuat phishing. Jangan masukkan data pribadi apa pun."}
                     {result.verdict === "WASPADA" && "Beberapa indikator mencurigakan ditemukan. Periksa kembali sebelum lanjut."}
-                    {result.verdict === "AMAN" && "Tidak ditemukan indikasi ancaman yang signifikan."}
+                    {result.verdict === "AMAN" && "Tidak ditemukan indikasi ancaman pada pemeriksaan saat ini. Tetap waspada karena hasil negatif palsu tetap mungkin terjadi."}
                   </div>
                 </>
               )}
